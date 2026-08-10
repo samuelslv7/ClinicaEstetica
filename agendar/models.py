@@ -8,3 +8,10 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.nome + " " + self.cpf
+        
+class HorarioModel(models.Model):
+    data = models.DateField()
+    horario =  models.TimeField()
+    livre = models.BooleanField(default = True)
+    def __str__(self):
+        return f"{self.data} {self.horario}"
