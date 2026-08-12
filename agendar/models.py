@@ -7,11 +7,13 @@ class Cliente(models.Model):
     telefone = models.CharField(max_length=9)
 
     def __str__(self):
-        return self.nome + " " + self.cpf
-        
+        return f"{self.nome}"
+
+
 class HorarioModel(models.Model):
     data = models.DateField()
-    horario =  models.TimeField()
-    livre = models.BooleanField(default = True)
+    horario = models.TimeField()
+    livre = models.BooleanField(default=True)
+
     def __str__(self):
         return f"{self.data} {self.horario}"
