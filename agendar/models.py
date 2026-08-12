@@ -15,3 +15,15 @@ class HorarioModel(models.Model):
     livre = models.BooleanField(default = True)
     def __str__(self):
         return f"{self.data} {self.horario}"
+
+class AgendamentoModel(models.Model):
+    cliente = models.ForeignKey(
+        Cliente,
+        on_delete = models.CASCADE,
+        related_name = 'agendamento'
+    )
+    horario = models.OneToOneField(
+        HorarioModel,
+        on_delete=models.CASCADE,
+        related_name='agendamento'
+    )
