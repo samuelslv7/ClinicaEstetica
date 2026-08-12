@@ -1,9 +1,10 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
-from .forms import ClienteForm, AgendamentoForm, HorarioForm
 from django.urls import reverse
+from django.contrib import messages
 
-from .models import HorarioModel, AgendamentoModel
+from .forms import ClienteForm, AgendamentoForm, HorarioForm
+from .models import Cliente, HorarioModel, AgendamentoModel
 
 
 def index(request):
@@ -12,20 +13,26 @@ def index(request):
 
 def thanks(request, nome):
     return render(request, "agendar/thanks.html", {"nome": nome})
-    return HttpResponse(f"Obrigado {nome}!")
 
 
 def criarCliente(request):
     if request.method == "POST":
         form = ClienteForm(request.POST)
         if form.is_valid():
-            nome = form.cleaned_data["nome"]
+            # nome = form.cleaned_data["nome"]
             form.save()
-            return HttpResponseRedirect(reverse("agendar:thanks", args=(nome,)))
+            messages.success(request, "Cliente cadastrado com sucesso!")
+            return redirect("agendar:criarcliente")
+            # return HttpResponseRedirect(reverse("agendar:thanks", args=(nome,)))
     else:
         form = ClienteForm()
 
     return render(request, "agendar/criarCliente.html", {"form": form})
+
+
+def listar_clientes(request):
+    clientes = Cliente.objects.all().order_by("nome")
+    return render(request, "agendar/listarCliente.html", {"clientes": clientes})
 
 
 def horario_cadastrar(request: HttpRequest):

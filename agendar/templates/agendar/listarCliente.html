@@ -1,0 +1,38 @@
+<body>
+
+    <h2>Gerenciamento de Clientes</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color: green;"><strong>{{ message }}</strong></p>
+        {% endfor %}
+    {% endif %}
+
+    <a href="{% url 'agendar:criarcliente' %}" >+ Novo Cliente</a>
+
+    {% if clientes %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Telefone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in clientes %}
+                <tr>
+                    <td>{{ cliente.nome }}</td>
+                    <td>{{ cliente.cpf }}</td>
+                    <td>{{ cliente.telefone|default:"-" }}</td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Nenhum cliente cadastrado até o momento.</p>
+    {% endif %}
+
+</body>
+</html>
