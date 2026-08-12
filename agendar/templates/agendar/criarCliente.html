@@ -1,0 +1,7 @@
+<form action="{% url "agendar:criarcliente" %}" method="post" novalidate>
+    {% csrf_token %}
+    {{form}}
+
+    <input type="submit" value="Enviar">
+
+</form>

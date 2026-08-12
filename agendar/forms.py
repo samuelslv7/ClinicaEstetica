@@ -1,6 +1,5 @@
-
 from django import forms
-from .models import HorarioModel, AgendamentoModel
+from .models import Cliente, HorarioModel, AgendamentoModel
 
 class HorarioForm(forms.ModelForm):
     class Meta:
@@ -15,3 +14,10 @@ class AgendamentoForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['horario'].queryset = HorarioModel.objects.filter(livre=True).order_by('data', 'horario')
         # Retorna apenas horários não agendados ainda.
+
+
+class ClienteForm(forms.ModelForm):
+    class Meta:
+        model = Cliente
+        fields = '__all__'
+        # fields = ["cpf", "nome", "telefone"]
