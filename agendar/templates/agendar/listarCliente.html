@@ -17,6 +17,7 @@
                     <th>Nome</th>
                     <th>CPF</th>
                     <th>Telefone</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +26,9 @@
                     <td>{{ cliente.nome }}</td>
                     <td>{{ cliente.cpf }}</td>
                     <td>{{ cliente.telefone|default:"-" }}</td>
-                    
+                    <td>
+                        <a href="{% url 'agendar:editarcliente' cliente.cpf %}">Editar</a>
+                    </td>                    
                 </tr>
                 {% endfor %}
             </tbody>

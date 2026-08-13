@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.urls import reverse
 from django.contrib import messages
@@ -57,3 +57,18 @@ def agendamento_realizar(request: HttpRequest):
             return redirect("agendamento:home")
     contexto = {"form": AgendamentoForm()}
     return render(request, "agendamento/realizarAgendamento.html", contexto)
+
+
+def editar_cliente(request, cliente_cpf):
+    cliente = get_object_or_404(Cliente, cpf=cliente_cpf)
+
+    if request.method == "POST":
+        form = ClienteForm(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Dados do cliente atualizados com sucesso!")
+            return redirect("agendar:listarclientes")
+    else:
+        form = ClienteForm(instance=cliente)
+
+    return render(request, "agendar/editarcliente.html", {"form": form, "cliente": cliente})
