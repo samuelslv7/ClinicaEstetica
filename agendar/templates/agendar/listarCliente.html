@@ -28,6 +28,7 @@
                     <td>{{ cliente.telefone|default:"-" }}</td>
                     <td>
                         <a href="{% url 'agendar:editarcliente' cliente.cpf %}">Editar</a>
+                        <a href="{% url 'agendar:deletarcliente' cliente.cpf %}" class="btn btn-deletar">Excluir</a>
                     </td>                    
                 </tr>
                 {% endfor %}

@@ -71,4 +71,19 @@ def editar_cliente(request, cliente_cpf):
     else:
         form = ClienteForm(instance=cliente)
 
-    return render(request, "agendar/editarcliente.html", {"form": form, "cliente": cliente})
+    return render(
+        request, "agendar/editarcliente.html", {"form": form, "cliente": cliente}
+    )
+
+
+def deletar_cliente(request, cliente_cpf):
+    cliente = get_object_or_404(Cliente, cpf=cliente_cpf)
+
+    if request.method == "POST":
+        nome = cliente.nome
+        cliente.delete()
+        messages.success(request, f'Cliente "{nome}" removido com sucesso!')
+        return redirect("agendar:listarclientes")
+
+    # Se for GET, exibe a tela de confirmação
+    return render(request, "agendar/deletarconfirmar.html", {"cliente": cliente})
