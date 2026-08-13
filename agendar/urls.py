@@ -5,6 +5,7 @@ from . import views
 app_name = "agendar"
 urlpatterns = [
     path("", views.index, name="index"),
-    path("criarcliente/", views.criarCliente, name="criarcliente"),
+    path('clientes/', views.listar_clientes, name='listarclientes'),
+    path("clientes/novo", views.criarCliente, name="criarcliente"),
     path("thanks/<str:nome>", views.thanks, name="thanks"),
 ]
