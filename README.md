@@ -2,25 +2,33 @@
 Desafio prático de um sistema de agendamento para o processo seletivo da COMPEX
 
 ## Time 8
-- Samuel da Silva Cruz
-- Romell
--Sávio Ricardo Morais Ramos Pereira
+* Samuel da Silva Cruz
+* Romell Santos Portela Júnior
+* Sávio Ricardo Morais Ramos Pereira
 
 ## Sobre o Projeto
 O objetivo é desenvolver um sistema simples para organizar clientes, horários disponíveis e agendamentos de uma clínica estética, evitando conflito de horários entre os agendamentos.
 
-## Tecnologias
+## Tecnologias Utilizadas
 * **Linguagem** : Python
 * **Framework** : Django
--Git/GitHub
+* **Banco de Dados** : SQLite
+* **Gerenciador de Dependências** : Poetry
+* **Controle de Versão** : Git / GitHub
+
+## Pré-requisitos
+Antes de iniciar a execução local do projeto, certifique-se de possuir em seu ambiente:
+* Git instalado.
+* Python (versão 3.10 ou superior).
+* Gerenciador de dependências Poetry instalado.
+
+## Funcionalidades
+1. **Cadastro de Clientes**: Registro e armazenamento dos dados dos clientes
+2. **Cadastro de Horários Disponíveis**: Definição Prévia dos horários de atendimento da clínica
+3. **Agendamento de Horário**: Vinculação de um cliente registrado a um horário livre
+4. **Cancelamento de Agendamento**: Remoção ou desativação de uma consulta previamente agendada
+5. **Validação Anti-Conflito**: Bloqueio automático para impedir que dois clientes sejam agendados no mesmo horário
+6. **Tela de Listagem**: Visualização centralizada dos próximos agendamentos confirmados
 
 ## Como Executar o Projeto 
 
-
-## Funcionalidades
-1. Cadastro de clientes.
-2. Cadastro de horários disponíveis.
-3. Agendamento de horário para um cliente.
-4. Cancelamento de agendamento.
-5. Validação para impedir que dois clientes sejam agendados no mesmo horário.
-6. Tela de listagem dos próximos agendamentos
