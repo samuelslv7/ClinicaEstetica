@@ -16,12 +16,6 @@ O objetivo é desenvolver um sistema simples para organizar clientes, horários 
 * **Gerenciador de Dependências** : Poetry
 * **Controle de Versão** : Git / GitHub
 
-## Pré-requisitos
-Antes de iniciar a execução local do projeto, certifique-se de possuir em seu ambiente:
-* Git instalado.
-* Python (versão 3.10 ou superior).
-* Gerenciador de dependências Poetry instalado.
-
 ## Funcionalidades
 1. **Cadastro de Clientes**: Registro e armazenamento dos dados dos clientes
 2. **Cadastro de Horários Disponíveis**: Definição Prévia dos horários de atendimento da clínica
@@ -29,6 +23,12 @@ Antes de iniciar a execução local do projeto, certifique-se de possuir em seu 
 4. **Cancelamento de Agendamento**: Remoção ou desativação de uma consulta previamente agendada
 5. **Validação Anti-Conflito**: Bloqueio automático para impedir que dois clientes sejam agendados no mesmo horário
 6. **Tela de Listagem**: Visualização centralizada dos próximos agendamentos confirmados
+
+## Pré-requisitos
+Antes de iniciar a execução local do projeto, certifique-se de possuir em seu ambiente:
+* Git instalado.
+* Python (versão 3.10 ou superior).
+* Gerenciador de dependências Poetry instalado.
 
 ## Como Executar o Projeto 
 
