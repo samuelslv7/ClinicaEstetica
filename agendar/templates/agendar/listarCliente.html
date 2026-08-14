@@ -1,3 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Clientes</title>
+    <style>
+        body { font-family: sans-serif; margin: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .btn { padding: 5px 10px; text-decoration: none; border-radius: 4px; display: inline-block; }
+        .btn-novo { background-color: #28a745; color: white; margin-bottom: 15px; }
+        .btn-editar { background-color: #ffc107; color: black; }
+        .btn-deletar { background-color: #dc3545; color: white; }
+        .btn-perfil { background-color: #007bff; color: white; }
+    </style>
+</head>
 <body>
 
     <h2>Gerenciamento de Clientes</h2>
@@ -8,7 +25,7 @@
         {% endfor %}
     {% endif %}
 
-    <a href="{% url 'agendar:criarcliente' %}" >+ Novo Cliente</a>
+    <a href="{% url 'agendar:criarcliente' %}" class="btn btn-novo">+ Novo Cliente</a>
 
     {% if clientes %}
         <table>
@@ -27,9 +44,9 @@
                     <td>{{ cliente.cpf }}</td>
                     <td>{{ cliente.telefone|default:"-" }}</td>
                     <td>
-                        <a href="{% url 'agendar:editarcliente' cliente.cpf %}">Editar</a>
+                        <a href="{% url 'agendar:editarcliente' cliente.cpf %}" class="btn btn-editar">Editar</a>
                         <a href="{% url 'agendar:deletarcliente' cliente.cpf %}" class="btn btn-deletar">Excluir</a>
-                    </td>                    
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
