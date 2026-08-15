@@ -5,6 +5,7 @@ from django.contrib import messages
 
 from .forms import ClienteForm, AgendamentoForm, HorarioForm
 from .models import Cliente, HorarioModel, AgendamentoModel
+from datetime import datetime, timedelta
 
 
 def index(request):
@@ -40,8 +41,11 @@ def horario_cadastrar(request: HttpRequest):
         formulario = HorarioForm(request.POST)
         if formulario.is_valid():
             formulario.save()
-            return redirect("horarios:home")
-    contexto = {"form": HorarioForm}
+            messages.success(request, "Horário disponível cadastrado com sucesso!")
+            return redirect("agendar:cadastrarHorario")
+        else:
+            messages.error(request, 'Erro ao cadastrar. Verifique os dados informados.')
+    contexto = {"form": HorarioForm()}
     return render(request, "horarios/cadastrarHorario.html", contexto)
 
 
@@ -54,10 +58,12 @@ def agendamento_realizar(request: HttpRequest):
             horario.livre = False
             horario.save()
             agendamento.save()
-            return redirect("agendamento:home")
+            messages.success(request, "Agendamento realizado com sucesso!")
+            return redirect("agendar:realizarAgendamento")
+        else:
+            messages.error(request, 'Erro ao realizar o agendamento. Verifique os dados informados.')
     contexto = {"form": AgendamentoForm()}
     return render(request, "agendamento/realizarAgendamento.html", contexto)
-
 
 def editar_cliente(request, cliente_cpf):
     cliente = get_object_or_404(Cliente, cpf=cliente_cpf)
@@ -87,3 +93,40 @@ def deletar_cliente(request, cliente_cpf):
 
     # Se for GET, exibe a tela de confirmação
     return render(request, "agendar/deletarconfirmar.html", {"cliente": cliente})
+    return render(request, "horarios/realizarAgendamento.html", contexto)
+
+def agenda_horarios(request):
+    numeroSemana = int(request.GET.get('semana',0))
+    #Retorna a semana que está sendo visualizada pelo usuário. Semana atual = 0
+    hoje = datetime.now().date()
+    segunda = hoje - timedelta(days = hoje.weekday()) + timedelta(weeks = numeroSemana)
+
+    horariosSemana = HorarioModel.objects.filter(data__range=[segunda,segunda + timedelta(days = 6)]
+    ).select_related("agendamento__cliente").order_by('horario')
+    #Realiza uma consulta no banco de dados retornando todos os horarios pertencentes a aquela semana
+
+
+    diasSemana = [
+        {'nome': 'SEGUNDA', 'data': segunda, 'horarios': []},
+        {'nome': 'TERÇA', 'data': segunda + timedelta(days=1), 'horarios': []},
+        {'nome': 'QUARTA', 'data': segunda + timedelta(days=2), 'horarios': []},
+        {'nome': 'QUINTA', 'data': segunda + timedelta(days=3), 'horarios': []},
+        {'nome': 'SEXTA', 'data': segunda + timedelta(days=4), 'horarios': []},
+        {'nome': 'SÁBADO', 'data': segunda + timedelta(days=5), 'horarios': []},
+        {'nome': 'DOMINGO', 'data': segunda + timedelta(days =6), 'horarios': []},
+    ]
+
+    for h in horariosSemana:
+        numero_dia = h.data.weekday()
+        diasSemana[numero_dia]['horarios'].append(h)
+    
+    contexto = {
+        'dias_semana': diasSemana,
+        'inicio_semana': segunda,
+        'fim_semana' : segunda + timedelta(days = 6),
+        'semana_atual': numeroSemana,
+        'proxima_semana' : numeroSemana + 1,
+        'semana_anterior' : numeroSemana -1,
+
+    }
+    return render(request,'horarios/homeHorarios.html',contexto)

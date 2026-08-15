@@ -1,0 +1,73 @@
+
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        
+        /* Layout em tabela/grid estilo imagem */
+        .agenda-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            background-color: #a0b2ee;
+            border: 2px solid #a0b2ee;
+            max-width: 1000px;
+            margin: 20px auto;
+        }
+
+        .header-dia {
+            background-color: #ffffff;
+            font-weight: bold;
+            padding: 15px 5px;
+            text-transform: uppercase;
+        }
+
+        .coluna-dia {
+            background-color: #ffffff;
+            min-height: 350px;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Cards das consultas / horários */
+        .card-horario {
+            border: 1px solid #d0d0d0;
+            padding: 8px 4px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .card-horario.ocupado {
+            background-color: #f9f9f9;
+        }
+
+        .card-horario.vago {
+            background-color: #e8f5e9;
+            border-color: #81c784;
+            color: #2e7d32;
+        }
+
+.navegacao-semana {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.btn-navegacao {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-navegacao:hover {
+    background-color: #5a6268;
+}

@@ -7,6 +7,15 @@ class HorarioForm(forms.ModelForm):
         model = HorarioModel
         # model = TarefaModel
         fields = ["data", "horario"]
+        widgets = {
+            'data' : forms.DateInput(
+                attrs = { 'type': 'date', }
+            ),
+            'horario' : forms.TimeInput(
+                attrs = { 'type': 'time',}
+            )
+
+        }
 
 
 class AgendamentoForm(forms.ModelForm):
