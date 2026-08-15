@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Agenda Semanal</title>
+    <link rel="stylesheet" href="{% static 'css/horarios.css' %}">
+</head>
+<body>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+    <a href="{% url 'agendar:cadastrarHorario' %}" style="background-color: #007bff; color: white; padding: 12px; text-decoration: none; border-radius: 5px; text-align: center; font-weight: bold;">
+        + Cadastrar Horário Disponível
+    </a>
+
+    <a href="{% url 'agendar:cancelarHorario' %}" style="background-color: #dc3545; color: white; padding: 12px; text-decoration: none; border-radius: 5px; text-align: center; font-weight: bold;">
+        - Cancelar Horário Disponível
+    </a>
+
+    <a href="{% url 'agendar:realizarAgendamento' %}" style="background-color: #28a745; color: white; padding: 12px; text-decoration: none; border-radius: 5px; text-align: center; font-weight: bold;">
+        + Realizar Agendamento
+    </a>
+
+    <a href="{% url 'agendar:cancelarAgendamento' %}" style="background-color: #dc3545; color: white; padding: 12px; text-decoration: none; border-radius: 5px; text-align: center; font-weight: bold;">
+        - Cancelar Agendamento
+    </a>
+</div>
+    
+    <h2>{{ inicio_semana|date:"d/m" }} - {{ fim_semana|date:"d/m" }} ({{ inicio_semana|date:"Y" }})</h2>
+
+    <div class="agenda-grid">
+        {% for dia in dias_semana %}
+            <div class="header-dia">{{ dia.nome }}</div>
+        {% endfor %}
+
+
+        {% for dia in dias_semana %}
+            <div class="coluna-dia">
+                {% for h in dia.horarios %}
+                    {% if not h.livre and h.agendamento %}
+                        <!-- CARD OCUPADO -->
+                        <div class="card-horario ocupado">
+                            CONSULTA<br>
+                            <strong>{{ h.agendamento.cliente.nome|upper }}</strong><br>
+                            {{ h.horario|time:"H:i" }}
+                        </div>
+                    {% else %}
+                        <!-- CARD VAGO -->
+                        <div class="card-horario vago">
+                            <strong>LIVRE</strong><br>
+                            {{ h.horario|time:"H:i" }}
+                        </div>
+                    {% endif %}
+                {% empty %}
+                    <!-- Caso não exista nenhum registro cadastrado no banco para esse dia -->
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="navegacao-semana">
+        <!-- Botão Semana Anterior -->
+        <a href="?semana={{ semana_anterior }}" class="btn-navegacao">
+            &larr; Semana Anterior
+        </a>
+
+        <!-- Botão Próxima Semana -->
+        <a href="?semana={{ proxima_semana }}" class="btn-navegacao">
+            Próxima Semana &rarr;
+        </a>
+    </div>
+
+</body>
+</html>
