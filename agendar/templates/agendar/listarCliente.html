@@ -134,20 +134,17 @@
 <body>
 
     <div class="container">
-        <!-- Topo com Título e Botão de Novo Cliente -->
         <div class="topo">
             <h2>Clientes Cadastrados</h2>
             <a href="{% url 'agendar:criarcliente' %}" class="btn-novo">+ Novo Cliente</a>
         </div>
 
-        <!-- Mensagens do Django -->
         {% if messages %}
             {% for message in messages %}
                 <div class="mensagem-sucesso">{{ message }}</div>
             {% endfor %}
         {% endif %}
 
-        <!-- Tabela ou Mensagem de Lista Vazia -->
         {% if clientes %}
             <table>
                 <thead>
