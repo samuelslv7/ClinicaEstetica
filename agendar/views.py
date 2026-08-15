@@ -62,7 +62,7 @@ def horario_cancelar(request : HttpRequest):
     hoje = agora.date()
     hora_atual = agora.time()
     contexto = {"horarios" : HorarioModel.objects.filter(livre = True).filter(
-            Q(data__gt=hoje) | Q(data=hoje, horario__gte=hora_atual)
+            Q(data__gt=hoje) | Q(data=hoje, horario__gte=hora_atual).order_by("data", "horario")
         )} #Horarios de datas posteriores a atual ou no mesmo dia com horas acima da atual.
     return render(request,'horarios/cancelarHorario.html',contexto)
 
@@ -83,6 +83,29 @@ def agendamento_realizar(request: HttpRequest):
             messages.error(request, 'Erro ao realizar o agendamento. Verifique os dados informados.')
     contexto = {"form": AgendamentoForm()}
     return render(request, "horarios/realizarAgendamento.html", contexto)
+
+def agendamento_cancelar(request : HttpRequest):
+    if request.method == "POST":
+        horario_id = request.POST.get("horario_id")
+        if horario_id:
+            horario = get_object_or_404(HorarioModel, id =horario_id)
+            AgendamentoModel.objects.filter(horario=horario).delete()
+            horario.livre = True
+            horario.save()
+            messages.success(request, "agendamento removido!")
+            return redirect("agendar:cancelarAgendamento")
+        else:
+            messages.error(request, 'Erro ao remover o agendamento selecionado.')
+
+    agora = datetime.now()
+    hoje = agora.date()
+    hora_atual = agora.time()
+
+    contexto = {"horarios" : HorarioModel.objects.filter(livre = False).filter(
+        Q(data__gt=hoje) | Q(data=hoje, horario__gte=hora_atual)
+    ).order_by("data", "horario")}
+    return render(request,'horarios/cancelarAgendamento.html',contexto)
+
 
 def editar_cliente(request, cliente_cpf):
     cliente = get_object_or_404(Cliente, cpf=cliente_cpf)

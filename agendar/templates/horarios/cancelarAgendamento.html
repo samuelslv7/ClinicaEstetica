@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancelar Agendamento</title>
+</head>
+<body>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <form method="post">
+    {% csrf_token %}
+    <label for="horario_id">Selecione o horário para remover agendamento:</label>
+    <select name="horario_id" id="horario_id">
+        {% for h in horarios %}
+            <option value="{{ h.id }}">{{ h.data|date:"d/m/Y" }} - {{ h.horario|time:"H:i" }}</option>
+        {% endfor %}
+    </select>
+
+<div style="display: flex; gap: 15px; margin-top: 20px; align-items: center;">
+        <input type="submit" value="Cancelar" style="background-color: #b41e1e; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">
+        
+        <a href="{% url 'agendar:agenda' %}" style="display: inline-block; padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+            &larr; Voltar para a Agenda
+        </a>
+    </div>
+</form>
+</body>
+</html>
