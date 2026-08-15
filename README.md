@@ -31,4 +31,24 @@ Antes de iniciar a execução local do projeto, certifique-se de possuir em seu 
 * Gerenciador de dependências Poetry instalado.
 
 ## Como Executar o Projeto 
+1. **Clonar o repositório:**
+  ```bash
+   git clone [https://github.com/samuelslv7/ClinicaEstetica.git](https://github.com/samuelslv7/ClinicaEstetica.git)
+
+Acessar a pasta do projeto:
+Bash
+cd ClinicaEstetica
+
+**Instalar as dependências:**
+Bash
+poetry install
+
+**Criar e estruturar o Banco de Dados (SQLite):**
+Bash
+poetry run python gerenciar.py migrate
+
+**Iniciar o servidor de desenvolvimento:**
+Bash
+poetry run python gerenciar.py runserver
+
 
