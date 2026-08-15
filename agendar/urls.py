@@ -13,5 +13,6 @@ urlpatterns = [
     path("horarios/",views.agenda_horarios,name="agenda"),
     path("horarios/cadastrarHorario",views.horario_cadastrar,name="cadastrarHorario"),
     path("horarios/realizarAgendamento",views.agendamento_realizar,name="realizarAgendamento"),
+    path("horarios/cancelarHorario",views.horario_cancelar,name="cancelarHorario")
 
 ]

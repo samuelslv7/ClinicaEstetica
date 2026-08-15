@@ -6,7 +6,7 @@ from django.contrib import messages
 from .forms import ClienteForm, AgendamentoForm, HorarioForm
 from .models import Cliente, HorarioModel, AgendamentoModel
 from datetime import datetime, timedelta
-
+from django.db.models import Q
 
 def index(request):
     return HttpResponse("Hello, world.")
@@ -48,6 +48,25 @@ def horario_cadastrar(request: HttpRequest):
     contexto = {"form": HorarioForm()}
     return render(request, "horarios/cadastrarHorario.html", contexto)
 
+def horario_cancelar(request : HttpRequest):
+    if request.method == "POST":
+        horario_id = request.POST.get("horario_id")
+        if horario_id:
+            horario = get_object_or_404(HorarioModel, id =horario_id)
+            horario.delete()
+            messages.success(request, "Horario disponível removido!")
+            return redirect("agendar:cancelarHorario")
+        else:
+            messages.error(request, 'Erro ao remover o horário selecionado.')
+    agora = datetime.now()
+    hoje = agora.date()
+    hora_atual = agora.time()
+    contexto = {"horarios" : HorarioModel.objects.filter(livre = True).filter(
+            Q(data__gt=hoje) | Q(data=hoje, horario__gte=hora_atual)
+        )} #Horarios de datas posteriores a atual ou no mesmo dia com horas acima da atual.
+    return render(request,'horarios/cancelarHorario.html',contexto)
+
+
 
 def agendamento_realizar(request: HttpRequest):
     if request.method == "POST":
@@ -63,7 +82,7 @@ def agendamento_realizar(request: HttpRequest):
         else:
             messages.error(request, 'Erro ao realizar o agendamento. Verifique os dados informados.')
     contexto = {"form": AgendamentoForm()}
-    return render(request, "agendamento/realizarAgendamento.html", contexto)
+    return render(request, "horarios/realizarAgendamento.html", contexto)
 
 def editar_cliente(request, cliente_cpf):
     cliente = get_object_or_404(Cliente, cpf=cliente_cpf)
