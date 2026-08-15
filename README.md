@@ -32,8 +32,8 @@ Antes de iniciar a execução local do projeto, certifique-se de possuir em seu 
 
 ## Como Executar o Projeto 
 1. **Clonar o repositório:**
-  ```bash
-   git clone [https://github.com/samuelslv7/ClinicaEstetica.git](https://github.com/samuelslv7/ClinicaEstetica.git)
+```bash
+git clone [https://github.com/samuelslv7/ClinicaEstetica.git](https://github.com/samuelslv7/ClinicaEstetica.git)
 ```
 2. **Acessar a pasta do projeto:**
 ```Bash
