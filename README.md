@@ -39,15 +39,15 @@ Acessar a pasta do projeto:
 Bash
 cd ClinicaEstetica
 
-**Instalar as dependências:**
+Instalar as dependências:
 Bash
 poetry install
 
-**Criar e estruturar o Banco de Dados (SQLite):**
+Criar e estruturar o Banco de Dados (SQLite):
 Bash
 poetry run python gerenciar.py migrate
 
-**Iniciar o servidor de desenvolvimento:**
+Iniciar o servidor de desenvolvimento:
 Bash
 poetry run python gerenciar.py runserver
 
