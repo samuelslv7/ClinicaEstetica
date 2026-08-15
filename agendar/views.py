@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.urls import reverse
 from django.contrib import messages
@@ -63,6 +63,36 @@ def agendamento_realizar(request: HttpRequest):
         else:
             messages.error(request, 'Erro ao realizar o agendamento. Verifique os dados informados.')
     contexto = {"form": AgendamentoForm()}
+    return render(request, "agendamento/realizarAgendamento.html", contexto)
+
+def editar_cliente(request, cliente_cpf):
+    cliente = get_object_or_404(Cliente, cpf=cliente_cpf)
+
+    if request.method == "POST":
+        form = ClienteForm(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Dados do cliente atualizados com sucesso!")
+            return redirect("agendar:listarclientes")
+    else:
+        form = ClienteForm(instance=cliente)
+
+    return render(
+        request, "agendar/editarcliente.html", {"form": form, "cliente": cliente}
+    )
+
+
+def deletar_cliente(request, cliente_cpf):
+    cliente = get_object_or_404(Cliente, cpf=cliente_cpf)
+
+    if request.method == "POST":
+        nome = cliente.nome
+        cliente.delete()
+        messages.success(request, f'Cliente "{nome}" removido com sucesso!')
+        return redirect("agendar:listarclientes")
+
+    # Se for GET, exibe a tela de confirmação
+    return render(request, "agendar/deletarconfirmar.html", {"cliente": cliente})
     return render(request, "horarios/realizarAgendamento.html", contexto)
 
 def agenda_horarios(request):
