@@ -7,17 +7,23 @@
     <link rel="stylesheet" href="{% static 'css/horarios.css' %}">
 </head>
 <body>
-     <div class="painel-acoes">
-        <a href="{% url 'agendar:cadastrarHorario' %}" class="btn-acao btn-horario">
-            + Cadastrar Horário Disponível
-        </a>
-        <a href="{% url 'agendar:cancelarHorario' %}" class="btn-acao btn-horario">
-            - Cancelar Horário Disponível
-        </a>
-        <a href="{% url 'agendar:realizarAgendamento' %}" class="btn-acao btn-agendamento">
-            + Realizar Agendamento
-        </a>
-    </div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+    <a href="{% url 'agendar:cadastrarHorario' %}" style="background-color: #007bff; color: white; padding: 12px; text-decoration: none; border-radius: 5px; text-align: center; font-weight: bold;">
+        + Cadastrar Horário Disponível
+    </a>
+
+    <a href="{% url 'agendar:cancelarHorario' %}" style="background-color: #dc3545; color: white; padding: 12px; text-decoration: none; border-radius: 5px; text-align: center; font-weight: bold;">
+        - Cancelar Horário Disponível
+    </a>
+
+    <a href="{% url 'agendar:realizarAgendamento' %}" style="background-color: #28a745; color: white; padding: 12px; text-decoration: none; border-radius: 5px; text-align: center; font-weight: bold;">
+        + Realizar Agendamento
+    </a>
+
+    <a href="{% url 'agendar:cancelarAgendamento' %}" style="background-color: #dc3545; color: white; padding: 12px; text-decoration: none; border-radius: 5px; text-align: center; font-weight: bold;">
+        - Cancelar Agendamento
+    </a>
+</div>
     
     <h2>{{ inicio_semana|date:"d/m" }} - {{ fim_semana|date:"d/m" }} ({{ inicio_semana|date:"Y" }})</h2>
 
