@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Agenda Semanal</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+            }
+            body {
+                background-color: #f4f6f8;
+                margin: 0;
+                padding: 30px 15px;
+                display: flex;
+                justify-content: center;
+            }
+            .container {
+                background: #ffffff;
+                width: 100%;
+                max-width: 1000px;
+                padding: 24px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                border: 1px solid #e1e4e8;
+            }
+
+            /* Barra de Ações Rápidas */
+            .grid-acoes {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 10px;
+                margin-bottom: 24px;
+            }
+            .btn-acao {
+                text-decoration: none;
+                padding: 10px;
+                border-radius: 6px;
+                font-size: 0.85rem;
+                font-weight: 600;
+                text-align: center;
+                border: 1px solid transparent;
+            }
+            .btn-azul {
+                background-color: #f1f8ff;
+                color: #0366d6;
+                border-color: #c8e1ff;
+            }
+            .btn-azul:hover {
+                background-color: #dbedff;
+            }
+            .btn-verde {
+                background-color: #dcffe4;
+                color: #155724;
+                border-color: #c3e6cb;
+            }
+            .btn-verde:hover {
+                background-color: #c6f8d3;
+            }
+            .btn-vermelho {
+                background-color: #ffeef0;
+                color: #cb2431;
+                border-color: #ffdce0;
+            }
+            .btn-vermelho:hover {
+                background-color: #fed8db;
+            }
+
+            .topo-agenda {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+                border-bottom: 1px solid #e1e4e8;
+                padding-bottom: 15px;
+            }
+            h2 {
+                margin: 0;
+                font-size: 1.25rem;
+                color: #24292e;
+            }
+
+            /* Grid da Agenda */
+            .agenda-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+                gap: 10px;
+                margin-bottom: 24px;
+            }
+            .coluna-dia {
+                background-color: #fafbfc;
+                border-radius: 6px;
+                border: 1px solid #e1e4e8;
+                padding: 8px;
+                min-height: 250px;
+            }
+            .header-dia {
+                font-weight: 600;
+                font-size: 0.85rem;
+                color: #586069;
+                text-align: center;
+                margin-bottom: 10px;
+                padding-bottom: 6px;
+                border-bottom: 1px solid #e1e4e8;
+            }
+
+            /* Cards de Horário */
+            .card-horario {
+                padding: 8px;
+                border-radius: 5px;
+                font-size: 0.8rem;
+                margin-bottom: 8px;
+                line-height: 1.3;
+            }
+            .card-horario.ocupado {
+                background-color: #ffeef0;
+                border: 1px solid #ffdce0;
+                color: #cb2431;
+            }
+            .card-horario.vago {
+                background-color: #dcffe4;
+                border: 1px solid #c3e6cb;
+                color: #155724;
+            }
+
+            /* Navegação */
+            .btn-navegacao {
+                text-decoration: none;
+                padding: 8px 14px;
+                background-color: #f6f8fa;
+                border: 1px solid #d1d5da;
+                color: #24292e;
+                font-size: 0.85rem;
+                font-weight: 600;
+                border-radius: 6px;
+            }
+            .btn-navegacao:hover {
+                background-color: #e1e4e8;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="grid-acoes">
+                <a href="{% url 'agendar:cadastrarHorario' %}" class="btn-acao btn-azul">+ Cadastrar Horário</a>
+                <a href="{% url 'agendar:realizarAgendamento' %}" class="btn-acao btn-verde">+ Realizar Agendamento</a>
+                <a href="{% url 'agendar:cancelarHorario' %}" class="btn-acao btn-vermelho">- Remover Horário Vago</a>
+                <a href="{% url 'agendar:cancelarAgendamento' %}" class="btn-acao btn-vermelho"
+                    >- Cancelar Agendamento</a
+                >
+            </div>
+
+            <div class="topo-agenda">
+                <h2>
+                    Semana: {{ inicio_semana|date:"d/m" }} a {{ fim_semana|date:"d/m" }} ({{ inicio_semana|date:"Y" }})
+                </h2>
+                <a href="?semana={{ semana_anterior }}" class="btn-navegacao">&larr; Semana Anterior</a>
+                <a href="?semana={{ proxima_semana }}" class="btn-navegacao">Próxima Semana &rarr;</a>
+                <a href="{% url 'agendar:index' %}" class="btn-navegacao">Painel Inicial</a>
+            </div>
+
+            <div class="agenda-grid">
+                {% for dia in dias_semana %}
+                <div class="coluna-dia">
+                    <div class="header-dia">{{ dia.nome }}</div>
+                    {% for h in dia.horarios %} {% if not h.livre and h.agendamento %}
+                    <div class="card-horario ocupado">
+                        <strong>CONSULTA</strong><br />
+                        {{ h.agendamento.cliente.nome|upper }}<br />
+                        {{ h.horario|time:"H:i" }}
+                    </div>
+                    {% else %}
+                    <div class="card-horario vago">
+                        <strong>LIVRE</strong><br />
+                        {{ h.horario|time:"H:i" }}
+                    </div>
+                    {% endif %} {% empty %}
+                    <div style="font-size: 0.75rem; color: #8c959f; text-align: center; padding-top: 15px">
+                        Sem horários
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </body>
+</html>

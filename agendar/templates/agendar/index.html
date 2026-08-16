@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sistema de Agendamento</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+            }
+
+            body {
+                background-color: #f4f6f8;
+                margin: 0;
+                padding: 40px 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+
+            .painel {
+                width: 100%;
+                max-width: 650px;
+            }
+
+            .cabecalho {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            h1 {
+                margin: 0 0 8px 0;
+                font-size: 1.6rem;
+                color: #24292e;
+            }
+
+            p.subtitulo {
+                margin: 0;
+                color: #586069;
+                font-size: 0.95rem;
+            }
+
+            .grid-opcoes {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+
+            @media (max-width: 550px) {
+                .grid-opcoes {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            .card-opcao {
+                background: #ffffff;
+                padding: 24px;
+                border-radius: 8px;
+                border: 1px solid #e1e4e8;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                transition:
+                    transform 0.15s,
+                    box-shadow 0.15s;
+            }
+
+            .card-opcao:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            }
+
+            .card-opcao h2 {
+                margin: 0 0 8px 0;
+                font-size: 1.2rem;
+                color: #24292e;
+                text-align: center;
+            }
+
+            .card-opcao p {
+                margin: 0 0 20px 0;
+                font-size: 0.85rem;
+                color: #586069;
+                line-height: 1.4;
+            }
+
+            .botoes-card {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .btn {
+                display: block;
+                text-align: center;
+                text-decoration: none;
+                padding: 9px 12px;
+                border-radius: 6px;
+                font-size: 0.85rem;
+                font-weight: 600;
+            }
+
+            .btn-principal {
+                background-color: #0366d6;
+                color: #ffffff;
+            }
+
+            .btn-principal:hover {
+                background-color: #0256b4;
+            }
+
+            .btn-secundario {
+                background-color: #f6f8fa;
+                color: #24292e;
+                border: 1px solid #d1d5da;
+            }
+
+            .btn-secundario:hover {
+                background-color: #e1e4e8;
+            }
+
+            .btn-sucesso {
+                background-color: #2ea44f;
+                color: #ffffff;
+            }
+
+            .btn-sucesso:hover {
+                background-color: #2c974b;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="painel">
+            <div class="cabecalho">
+                <h1>Painel de Controle</h1>
+                <p class="subtitulo">Selecione uma das opções abaixo para gerenciar o sistema</p>
+            </div>
+            <div class="grid-opcoes">
+                <div class="card-opcao">
+                    <div>
+                        <h2>Clientes</h2>
+                        <p>Cadastre, visualize, edite e gerencie todos os clientes do sistema.</p>
+                    </div>
+                    <div class="botoes-card">
+                        <a href="{% url 'agendar:listarclientes' %}" class="btn btn-principal">Ver Lista de Clientes</a>
+                        <a href="{% url 'agendar:criarcliente' %}" class="btn btn-secundario">+ Novo Cliente</a>
+                    </div>
+                </div>
+
+                <div class="card-opcao">
+                    <div>
+                        <h2>Horários</h2>
+                        <p>Cadastre novos slots de horários e faça agendamentos para clientes.</p>
+                    </div>
+                    <div class="botoes-card">
+                        <a href="{% url 'agendar:agenda' %}" class="btn btn-principal">Agenda</a>
+                        <a href="{% url 'agendar:realizarAgendamento' %}" class="btn btn-secundario"
+                            >Novo Agendamento</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

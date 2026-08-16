@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Editar Cliente - {{ cliente.nome }}</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+            }
+
+            body {
+                background-color: #f4f6f8;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+                padding: 20px;
+            }
+
+            .card {
+                background: #ffffff;
+                width: 100%;
+                max-width: 420px;
+                padding: 24px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                border: 1px solid #e1e4e8;
+            }
+
+            h2 {
+                margin-top: 0;
+                margin-bottom: 4px;
+                font-size: 1.3rem;
+                color: #24292e;
+            }
+
+            .subtitulo {
+                font-size: 0.85rem;
+                color: #586069;
+                margin-bottom: 20px;
+            }
+
+            .campo {
+                margin-bottom: 16px;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 6px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: #444d56;
+            }
+
+            input[type="text"] {
+                width: 100%;
+                padding: 10px 12px;
+                border: 1px solid #d1d5da;
+                border-radius: 6px;
+                font-size: 0.95rem;
+                outline: none;
+                transition: border-color 0.2s;
+            }
+
+            input[type="text"]:focus {
+                border-color: #0366d6;
+            }
+
+            .btn-salvar {
+                width: 100%;
+                background-color: #0366d6;
+                color: #ffffff;
+                border: none;
+                padding: 10px;
+                font-size: 0.95rem;
+                font-weight: 600;
+                border-radius: 6px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+
+            .btn-salvar:hover {
+                background-color: #0256b4;
+            }
+
+            .btn-cancelar {
+                display: block;
+                text-align: center;
+                margin-top: 12px;
+                color: #586069;
+                text-decoration: none;
+                font-size: 0.85rem;
+            }
+
+            .btn-cancelar:hover {
+                text-decoration: underline;
+            }
+
+            .erro {
+                color: #cb2431;
+                font-size: 0.8rem;
+                margin-top: 4px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h2>Editar Cliente</h2>
+            <div class="subtitulo">Atualize os dados de <strong>{{ cliente.nome }}</strong></div>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="campo">
+                    <label for="{{ form.nome.id_for_label }}">Nome Completo</label>
+                    {{ form.nome }} {% if form.nome.errors %}
+                    <div class="erro">{{ form.nome.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="campo">
+                    <label for="{{ form.cpf.id_for_label }}">CPF</label>
+                    {{ form.cpf }} {% if form.cpf.errors %}
+                    <div class="erro">{{ form.cpf.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="campo">
+                    <label for="{{ form.telefone.id_for_label }}">Telefone / WhatsApp</label>
+                    {{ form.telefone }} {% if form.telefone.errors %}
+                    <div class="erro">{{ form.telefone.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn-salvar">Salvar Alterações</button>
+                <a href="{% url 'agendar:listarclientes' %}" class="btn-cancelar">Cancelar e Voltar</a>
+            </form>
+        </div>
+    </body>
+</html>

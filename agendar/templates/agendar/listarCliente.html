@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Lista de Clientes</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+            }
+
+            body {
+                background-color: #f4f6f8;
+                margin: 0;
+                padding: 30px 15px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .container {
+                background: #ffffff;
+                width: 100%;
+                max-width: 800px;
+                padding: 24px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                border: 1px solid #e1e4e8;
+            }
+
+            .topo {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            h2 {
+                margin: 0;
+                font-size: 1.3rem;
+                color: #24292e;
+            }
+
+            .btn-novo {
+                background-color: #2ea44f;
+                color: #ffffff;
+                text-decoration: none;
+                padding: 8px 14px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                border-radius: 6px;
+                display: inline-block;
+            }
+
+            .btn-novo:hover {
+                background-color: #2c974b;
+            }
+
+            .mensagem-sucesso {
+                background-color: #dcffe4;
+                color: #155724;
+                padding: 10px;
+                border-radius: 6px;
+                font-size: 0.85rem;
+                margin-bottom: 16px;
+                border: 1px solid #c3e6cb;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 0.9rem;
+            }
+
+            th,
+            td {
+                padding: 12px;
+                text-align: left;
+                border-bottom: 1px solid #e1e4e8;
+            }
+
+            th {
+                background-color: #fafbfc;
+                color: #586069;
+                font-weight: 600;
+            }
+
+            tr:hover {
+                background-color: #f6f8fa;
+            }
+
+            .acoes {
+                display: flex;
+                gap: 8px;
+            }
+
+            .btn-acao {
+                text-decoration: none;
+                font-size: 0.8rem;
+                padding: 5px 10px;
+                border-radius: 4px;
+                font-weight: 500;
+            }
+
+            .btn-editar {
+                background-color: #f1f8ff;
+                color: #0366d6;
+                border: 1px solid #c8e1ff;
+            }
+
+            .btn-editar:hover {
+                background-color: #dbedff;
+            }
+
+            .btn-deletar {
+                background-color: #ffeef0;
+                color: #cb2431;
+                border: 1px solid #ffdce0;
+            }
+
+            .btn-deletar:hover {
+                background-color: #fed8db;
+            }
+
+            .vazio {
+                text-align: center;
+                color: #586069;
+                padding: 30px 0;
+                font-size: 0.95rem;
+            }
+
+            .btn-navegacao {
+                text-decoration: none;
+                padding: 8px 14px;
+                background-color: #f6f8fa;
+                border: 1px solid #d1d5da;
+                color: #24292e;
+                font-size: 0.85rem;
+                font-weight: 600;
+                border-radius: 6px;
+            }
+            .btn-navegacao:hover {
+                background-color: #e1e4e8;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="topo">
+                <h2>Clientes Cadastrados</h2>
+                <a href="{% url 'agendar:criarcliente' %}" class="btn-novo">Novo Cliente</a>
+                <a href="{% url 'agendar:index' %}" class="btn-navegacao">Painel Inicial</a>
+            </div>
+
+            {% if messages %} {% for message in messages %}
+            <div class="mensagem-sucesso">{{ message }}</div>
+            {% endfor %} {% endif %} {% if clientes %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Telefone</th>
+                        <th style="width: 140px">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in clientes %}
+                    <tr>
+                        <td><strong>{{ cliente.nome }}</strong></td>
+                        <td>{{ cliente.cpf }}</td>
+                        <td>{{ cliente.telefone|default:"-" }}</td>
+                        <td>
+                            <div class="acoes">
+                                <a href="{% url 'agendar:editarcliente' cliente.cpf %}" class="btn-acao btn-editar"
+                                    >Editar</a
+                                >
+                                <a href="{% url 'agendar:deletarcliente' cliente.cpf %}" class="btn-acao btn-deletar"
+                                    >Excluir</a
+                                >
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="vazio">Nenhum cliente cadastrado no momento.</div>
+            {% endif %}
+        </div>
+    </body>
+</html>
