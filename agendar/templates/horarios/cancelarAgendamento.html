@@ -1,60 +1,140 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cancelar Agendamento</title>
-    <style>
-        * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
-        body { background-color: #f4f6f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .card { background: #ffffff; width: 100%; max-width: 420px; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: 1px solid #e1e4e8; }
-        h2 { margin: 0 0 6px 0; font-size: 1.3rem; color: #cb2431; }
-        p.sub { font-size: 0.85rem; color: #586069; margin: 0 0 20px 0; }
-        .campo { margin-bottom: 16px; }
-        label { display: block; margin-bottom: 6px; font-size: 0.9rem; font-weight: 600; color: #444d56; }
-        select {
-            width: 100%; padding: 10px 12px; border: 1px solid #d1d5da; border-radius: 6px; font-size: 0.95rem; outline: none; background-color: #fff;
-        }
-        select:focus { border-color: #cb2431; }
-        .btn-excluir { width: 100%; background-color: #cb2431; color: #ffffff; border: none; padding: 10px; font-size: 0.95rem; font-weight: 600; border-radius: 6px; cursor: pointer; margin-top: 10px; }
-        .btn-excluir:hover { background-color: #b31d28; }
-        .btn-cancelar { display: block; text-align: center; margin-top: 12px; color: #586069; text-decoration: none; font-size: 0.85rem; }
-        .btn-cancelar:hover { text-decoration: underline; }
-        .mensagem { padding: 10px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 16px; background-color: #dcffe4; color: #155724; border: 1px solid #c3e6cb; }
-        .mensagem.error { background-color: #ffeef0; color: #cb2431; border-color: #ffdce0; }
-    </style>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Cancelar Agendamento</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+            }
+            body {
+                background-color: #f4f6f8;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+                padding: 20px;
+            }
+            .card {
+                background: #ffffff;
+                width: 100%;
+                max-width: 420px;
+                padding: 24px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                border: 1px solid #e1e4e8;
+            }
+            h2 {
+                margin: 0 0 6px 0;
+                font-size: 1.3rem;
+                color: #cb2431;
+            }
+            p.sub {
+                font-size: 0.85rem;
+                color: #586069;
+                margin: 0 0 20px 0;
+            }
+            .campo {
+                margin-bottom: 16px;
+            }
+            label {
+                display: block;
+                margin-bottom: 6px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: #444d56;
+            }
+            select {
+                width: 100%;
+                padding: 10px 12px;
+                border: 1px solid #d1d5da;
+                border-radius: 6px;
+                font-size: 0.95rem;
+                outline: none;
+                background-color: #fff;
+            }
+            select:focus {
+                border-color: #cb2431;
+            }
+            .btn-excluir {
+                width: 100%;
+                background-color: #cb2431;
+                color: #ffffff;
+                border: none;
+                padding: 10px;
+                font-size: 0.95rem;
+                font-weight: 600;
+                border-radius: 6px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+            .btn-excluir:hover {
+                background-color: #b31d28;
+            }
+            .btn-cancelar {
+                display: block;
+                text-align: center;
+                margin-top: 12px;
+                color: #586069;
+                text-decoration: none;
+                font-size: 0.85rem;
+            }
+            .btn-cancelar:hover {
+                text-decoration: underline;
+            }
+            .mensagem {
+                padding: 10px;
+                border-radius: 6px;
+                font-size: 0.85rem;
+                margin-bottom: 16px;
+                background-color: #dcffe4;
+                color: #155724;
+                border: 1px solid #c3e6cb;
+            }
+            .mensagem.error {
+                background-color: #ffeef0;
+                color: #cb2431;
+                border-color: #ffdce0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h2>Cancelar Agendamento</h2>
+            <p class="sub">Selecione o horário ocupado que deseja desmarcar</p>
 
-    <div class="card">
-        <h2>Cancelar Agendamento</h2>
-        <p class="sub">Selecione o horário ocupado que deseja desmarcar</p>
+            {% if messages %} {% for message in messages %}
+            <div class="mensagem {{ message.tags }}">{{ message }}</div>
+            {% endfor %} {% endif %}
 
-        {% if messages %}
-            {% for message in messages %}
-                <div class="mensagem {{ message.tags }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
+            <form method="POST">
+                {% csrf_token %}
 
-        <form method="POST">
-            {% csrf_token %}
-
-            <div class="campo">
-                <label for="horario_id">Selecione o horário:</label>
-                <select name="horario_id" id="horario_id" required>
-                    <option value="" disabled selected>Escolha um horário...</option>
-                    {% for h in horarios %}
+                <div class="campo">
+                    <label for="horario_id">Selecione o horário:</label>
+                    <select name="horario_id" id="horario_id" required>
+                        <option value="" disabled selected>Escolha um horário...</option>
+                        {% for h in horarios %}
                         <option value="{{ h.id }}">{{ h.data|date:"d/m/Y" }} - {{ h.horario|time:"H:i" }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+                        {% endfor %}
+                    </select>
+                </div>
 
-            <button type="submit" class="btn-excluir" onclick="return confirm('Deseja realmente cancelar este agendamento?')">
-                Cancelar Agendamento
-            </button>
-            <a href="{% url 'agendar:agenda' %}" class="btn-cancelar">Voltar para a Agenda</a>
-        </form>
-    </div>
-
-</body>
+                <button
+                    type="submit"
+                    class="btn-excluir"
+                    onclick="return confirm('Deseja realmente cancelar este agendamento?')"
+                >
+                    Cancelar Agendamento
+                </button>
+                <a href="{% url 'agendar:agenda' %}" class="btn-cancelar">Voltar para a Agenda</a>
+            </form>
+        </div>
+    </body>
 </html>

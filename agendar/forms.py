@@ -1,23 +1,25 @@
+import re
 from django import forms
 from .models import Cliente, HorarioModel, AgendamentoModel
-import re
-
 from django.db.models import Q
 from datetime import datetime
+
 
 class HorarioForm(forms.ModelForm):
     class Meta:
         model = HorarioModel
-        # model = TarefaModel
         fields = ["data", "horario"]
         widgets = {
-            'data' : forms.DateInput(
-                attrs = { 'type': 'date', }
+            "data": forms.DateInput(
+                attrs={
+                    "type": "date",
+                }
             ),
-            'horario' : forms.TimeInput(
-                attrs = { 'type': 'time',}
-            )
-
+            "horario": forms.TimeInput(
+                attrs={
+                    "type": "time",
+                }
+            ),
         }
 
 
@@ -31,25 +33,24 @@ class AgendamentoForm(forms.ModelForm):
         agora = datetime.now()
         hoje = agora.date()
         hora_atual = agora.time()
-        self.fields["horario"].queryset = HorarioModel.objects.filter(
-            livre=True
-        ).filter(
-            Q(data__gt=hoje) | Q(data=hoje, horario__gte=hora_atual)
-        ).order_by("data", "horario")
-        # Retorna apenas horários não agendados ainda.
+        self.fields["horario"].queryset = (
+            HorarioModel.objects.filter(livre=True)
+            .filter(Q(data__gt=hoje) | Q(data=hoje, horario__gte=hora_atual))
+            .order_by("data", "horario")
+        )
 
 
 class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
-        fields = ['nome', 'cpf', 'telefone']
+        fields = ["nome", "cpf", "telefone"]
 
         def clean_cpf(self):
-            cpf = self.cleaned_data.get('cpf', '')
-            cpf_numeros = re.sub(r'\D', '', cpf)
+            cpf = self.cleaned_data.get("cpf", "")
+            cpf_numeros = re.sub(r"\D", "", cpf)
 
             if len(cpf_numeros) != 11:
-                raise forms.ValidationError('O CPF deve conter exatamente 11 dígitos.')
+                raise forms.ValidationError("O CPF deve conter exatamente 11 dígitos.")
 
             existe_outro = (
                 Cliente.objects.filter(cpf=cpf_numeros)
@@ -59,7 +60,7 @@ class ClienteForm(forms.ModelForm):
 
             if existe_outro:
                 raise forms.ValidationError(
-                    'Já existe outro cliente cadastrado com este CPF.'
+                    "Já existe outro cliente cadastrado com este CPF."
                 )
 
             return cpf_numeros
