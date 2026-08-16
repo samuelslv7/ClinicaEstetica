@@ -9,12 +9,7 @@ from datetime import datetime, timedelta
 from django.db.models import Q
 
 def index(request):
-    return HttpResponse("Hello, world.")
-
-
-def thanks(request, nome):
-    return render(request, "agendar/thanks.html", {"nome": nome})
-
+    return render(request, 'agendar/index.html')
 
 def criarCliente(request):
     if request.method == "POST":
