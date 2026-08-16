@@ -7,12 +7,25 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("clientes/", views.listar_clientes, name="listarclientes"),
     path("clientes/novo", views.criarCliente, name="criarcliente"),
-    path("clientes/<str:cliente_cpf>/editar", views.editar_cliente, name="editarcliente"),
-    path("clientes/<str:cliente_cpf>/deletar/",views.deletar_cliente,name="deletarcliente"),
-    path("horarios/",views.agenda_horarios,name="agenda"),
-    path("horarios/cadastrarHorario",views.horario_cadastrar,name="cadastrarHorario"),
-    path("horarios/realizarAgendamento",views.agendamento_realizar,name="realizarAgendamento"),
-    path("horarios/cancelarHorario",views.horario_cancelar,name="cancelarHorario"),
-    path("horarios/cancelarAgendamento",views.agendamento_cancelar,name="cancelarAgendamento")
-
+    path(
+        "clientes/<str:cliente_cpf>/editar", views.editar_cliente, name="editarcliente"
+    ),
+    path(
+        "clientes/<str:cliente_cpf>/deletar/",
+        views.deletar_cliente,
+        name="deletarcliente",
+    ),
+    path("horarios/", views.agenda_horarios, name="agenda"),
+    path("horarios/cadastrarHorario", views.horario_cadastrar, name="cadastrarHorario"),
+    path(
+        "horarios/realizarAgendamento",
+        views.agendamento_realizar,
+        name="realizarAgendamento",
+    ),
+    path("horarios/cancelarHorario", views.horario_cancelar, name="cancelarHorario"),
+    path(
+        "horarios/cancelarAgendamento",
+        views.agendamento_cancelar,
+        name="cancelarAgendamento",
+    ),
 ]
