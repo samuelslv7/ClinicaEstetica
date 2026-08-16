@@ -57,7 +57,7 @@ def horario_cancelar(request : HttpRequest):
     hoje = agora.date()
     hora_atual = agora.time()
     contexto = {"horarios" : HorarioModel.objects.filter(livre = True).filter(
-            Q(data__gt=hoje) | Q(data=hoje, horario__gte=hora_atual).order_by("data", "horario")
+            Q(data__gt=hoje) | Q(data=hoje, horario__gte=hora_atual)
         )} #Horarios de datas posteriores a atual ou no mesmo dia com horas acima da atual.
     return render(request,'horarios/cancelarHorario.html',contexto)
 
