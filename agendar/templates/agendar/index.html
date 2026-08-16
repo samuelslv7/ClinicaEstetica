@@ -137,7 +137,6 @@
             <h1>Painel de Controle</h1>
             <p class="subtitulo">Selecione uma das opções abaixo para gerenciar o sistema</p>
         </div>
-
         <div class="grid-opcoes">
             <div class="card-opcao">
                 <div>
@@ -150,18 +149,17 @@
                 </div>
             </div>
 
-            <div class="card-opcao">
+            <div class="card-opcao" >
                 <div>
                     <h2>Horários</h2>
                     <p>Cadastre novos slots de horários e faça agendamentos para clientes.</p>
                 </div>
-                <div class="botoes-card">
-                    <a href="{% url 'agendar:realizarAgendamento' %}" class="btn btn-sucesso">Novo Agendamento</a>
-                    <a href="{% url 'agendar:cadastrarHorario' %}" class="btn btn-secundario">+ Cadastrar Horário</a>
+                <div class="botoes-card" >
+                    <a href="{% url 'agendar:agenda' %}" class="btn btn-principal" >Agenda</a>
+                    <a href="{% url 'agendar:realizarAgendamento' %}" class="btn btn-secundario" >Novo Agendamento</a>
                 </div>
             </div>
         </div>
     </div>
-
 </body>
 </html>
