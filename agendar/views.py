@@ -124,7 +124,7 @@ def editar_cliente(request, cliente_cpf):
         form = ClienteForm(instance=cliente)
 
     return render(
-        request, "agendar/editarcliente.html", {"form": form, "cliente": cliente}
+        request, "agendar/editarCliente.html", {"form": form, "cliente": cliente}
     )
 
 
@@ -138,7 +138,7 @@ def deletar_cliente(request, cliente_cpf):
         return redirect("agendar:listarclientes")
 
     # Se for GET, exibe a tela de confirmação
-    return render(request, "agendar/deletarconfirmar.html", {"cliente": cliente})
+    return render(request, "agendar/deletarConfirmar.html", {"cliente": cliente})
 
 
 def agenda_horarios(request):
